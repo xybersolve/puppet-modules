@@ -1,0 +1,3 @@
+class 'ntp' {
+  location => $location
+}

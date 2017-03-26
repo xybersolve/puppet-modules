@@ -1,0 +1,4 @@
+#Managed by Puppet 
+server 192.168.0.3 iburst prefer 
+server fr.pool.ntp.og
+driftfile /var/lib/ntp/drift
