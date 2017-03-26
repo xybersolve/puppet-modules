@@ -1,4 +1,7 @@
-class ntp::config ( $location = 'nyc' ){
+class ntp::config ( 
+    $location = 'nyc',
+    $admingroup = $ntp::params::admingroup,
+) inherits ntp::params {
     
     $allowed_locations = [
       '^nyc$',
@@ -7,18 +10,6 @@ class ntp::config ( $location = 'nyc' ){
     ]
 
     validate_re($location, $allowed_locations)
-
-	case $facts['os']['family']{
-	  'redhat': {
-	    $admingroup = 'wheel'
-	   }
-	  'debian': {
-	    $admingroup = 'sudo'
-	   }
-	   default: {
-	     fail("FAILED: ${facts['os']['family']} is not supported!")
-	   }  
-	}
 
     File {
 	  ensure => 'file',

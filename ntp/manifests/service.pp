@@ -1,23 +1,12 @@
-class ntp::service {
-
-	case $facts['os']['family']{
-	  'redhat': {
-	    $ntp_service = 'ntpd'
-	   }
-	  'debian': {
-	    $ntp_service = 'ntp'
-	   }
-	   default: {
-	     fail("FAILED: ${facts['os']['family']} is not supported!")
-	   }  
-	}
+class ntp::service (
+  $ntp_service = $ntp::params::ntp_service,
+) inherits ntp::params {
     
-    Service {
+     notify { "ntp::service-\$ntp_service: ${ntp_service}":}
+
+	service { 'NTPService':
 	  ensure => 'running',
 	  enable => true,
-	}
-	
-	service { 'NTPService':
 	  name      => $ntp_service,
 	  subscribe => Class['ntp::config'],
 	}
