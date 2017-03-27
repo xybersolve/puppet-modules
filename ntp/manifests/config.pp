@@ -11,15 +11,18 @@ class ntp::config (
 
     validate_re($location, $allowed_locations)
 
-    File {
-	  ensure => 'file',
-	  owner  => 'root',
-	  group  => $admingroup,
-	  mode   => '0664',
-	}
+    # use the Defined Type: admin_file.pp
+    ntp::admin_file { '/etc/ntp.conf': } 
+
+    # File {
+    #  ensure => 'file',
+    #  owner  => 'root',
+    #  group  => $admingroup,
+    #  mode   => '0664',
+    #}
 	
-	file { '/etc/ntp.conf':
-	  content => file("ntp/${location}"), 
-	  notify  => Class['ntp::service'],
-	}
+    #file { '/etc/ntp.conf':
+    #  content => file("ntp/${location}"), 
+    #  notify  => Class['ntp::service'],
+    #}
 } 
